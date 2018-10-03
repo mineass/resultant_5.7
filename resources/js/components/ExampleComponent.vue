@@ -7,7 +7,10 @@
             >Обновить</button>
         </div>
         <div class="col-md-10 order-md-1">
-            <div v-if="currencies" class="table-responsive">
+            <div v-if="currencies.length"
+                 class="table-responsive"
+            >
+                <p>Обновлено: {{ updatedAt }}</p>
                 <table class="table currecnies-list">
                     <thead>
                     <tr>
@@ -25,7 +28,7 @@
                     </tbody>
                 </table>
             </div>
-            <div v-else>Идет загрузка...</div>
+            <p v-else>Идет загрузка...</p>
         </div>
     </div>
 </template>
@@ -42,6 +45,7 @@
         data: function() {
             return {
                 isUpdating: true,
+                updatedAt: '',
                 currencies: [],
             }
         },
@@ -51,8 +55,9 @@
                 const self = this;
                 window.axios.post('/update-currencies')
                     .then( (response) => {
-                        console.log(response.data);
                         self.currencies = response.data.stock;
+                        let d = new Date();
+                        self.updatedAt = d.toLocaleString();
                     })
                     .catch( (error) => {
                         console.log(error.response);

@@ -26,7 +26,7 @@ class AppController extends Controller
         $client = new Client();
         try {
 
-            $request = $client->get('http://phisix-api3.appspot.com/stocks.json');
+            $request = $client->get('http://phisix-api3.appspot1212.com/stocks.json');
 
         } catch (ConnectException $e) {
 
