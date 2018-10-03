@@ -47426,7 +47426,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-2 order-md-2" }, [
+    _c("div", { staticClass: "col-md-2 order-md-2 mb-3" }, [
       _c(
         "button",
         {

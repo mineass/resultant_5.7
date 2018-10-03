@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-md-2 order-md-2">
+        <div class="col-md-2 order-md-2 mb-3">
             <button class="btn btn-success btn-block"
                     :disabled="isUpdating"
                     v-on:click="updateCurrencies"
