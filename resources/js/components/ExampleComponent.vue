@@ -10,7 +10,8 @@
             <div v-if="currencies.length"
                  class="table-responsive"
             >
-                <p>Обновлено: {{ updatedAt }}</p>
+                <p>{{ updatedAt }}</p>
+                <p v-show="statusText" class="text-danger">{{ statusText }}</p>
                 <table class="table currecnies-list">
                     <thead>
                     <tr>
@@ -28,7 +29,7 @@
                     </tbody>
                 </table>
             </div>
-            <p v-else>Идет загрузка...</p>
+            <p class="text-danger" v-else>{{ statusText || 'Идет загрузка...' }}</p>
         </div>
     </div>
 </template>
@@ -37,6 +38,7 @@
     export default {
         mounted() {
             this.updateCurrencies();
+
             const self = this;
             setInterval(function () {
                 self.updateCurrencies();
@@ -46,6 +48,7 @@
             return {
                 isUpdating: true,
                 updatedAt: '',
+                statusText: '',
                 currencies: [],
             }
         },
@@ -56,11 +59,14 @@
                 window.axios.post('/update-currencies')
                     .then( (response) => {
                         self.currencies = response.data.stock;
+
                         let d = new Date();
-                        self.updatedAt = d.toLocaleString();
+                        self.updatedAt = 'Обновлено: ' + d.toLocaleString();
+                        self.statusText = '';
                     })
                     .catch( (error) => {
                         console.log(error.response);
+                        self.statusText = 'Ошибка: ' + error.response.data.error;
                     })
                     .then( () => {
                         self.isUpdating = false;

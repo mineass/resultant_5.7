@@ -26,7 +26,7 @@ class AppController extends Controller
         $client = new Client();
         try {
 
-            $request = $client->get('http://phisix-api3.appspot1212.com/stocks.json');
+            $request = $client->get('http://phisix-api3.appspot.com/stocks.json');
 
         } catch (ConnectException $e) {
 
@@ -36,7 +36,7 @@ class AppController extends Controller
         } catch (ClientException $e) {
 
             // This will catch all 400 level errors.
-            return response()->json(['error' => 'Произошла ошибка'], $e->getResponse()->getStatusCode());
+            return response()->json(['error' => 'При обновлении произошла ошибка'], $e->getResponse()->getStatusCode());
 
         }
 

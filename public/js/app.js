@@ -47377,10 +47377,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
         this.updateCurrencies();
+
         var self = this;
         setInterval(function () {
             self.updateCurrencies();
@@ -47391,6 +47393,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             isUpdating: true,
             updatedAt: '',
+            statusText: '',
             currencies: []
         };
     },
@@ -47400,10 +47403,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var self = this;
             window.axios.post('/update-currencies').then(function (response) {
                 self.currencies = response.data.stock;
+
                 var d = new Date();
-                self.updatedAt = d.toLocaleString();
+                self.updatedAt = 'Обновлено: ' + d.toLocaleString();
+                self.statusText = '';
             }).catch(function (error) {
                 console.log(error.response);
+                self.statusText = 'Ошибка: ' + error.response.data.error;
             }).then(function () {
                 self.isUpdating = false;
             });
@@ -47435,7 +47441,23 @@ var render = function() {
     _c("div", { staticClass: "col-md-10 order-md-1" }, [
       _vm.currencies.length
         ? _c("div", { staticClass: "table-responsive" }, [
-            _c("p", [_vm._v("Обновлено: " + _vm._s(_vm.updatedAt))]),
+            _c("p", [_vm._v(_vm._s(_vm.updatedAt))]),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.statusText,
+                    expression: "statusText"
+                  }
+                ],
+                staticClass: "text-danger"
+              },
+              [_vm._v(_vm._s(_vm.statusText))]
+            ),
             _vm._v(" "),
             _c("table", { staticClass: "table currecnies-list" }, [
               _vm._m(0),
@@ -47456,7 +47478,9 @@ var render = function() {
               )
             ])
           ])
-        : _c("p", [_vm._v("Идет загрузка...")])
+        : _c("p", { staticClass: "text-danger" }, [
+            _vm._v(_vm._s(_vm.statusText || "Идет загрузка..."))
+          ])
     ])
   ])
 }
